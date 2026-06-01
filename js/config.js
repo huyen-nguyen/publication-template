@@ -59,7 +59,7 @@ const CONFIG = {
   /* ---------- 3. LINKS  (leave "" to hide the button) --------- */
   links: {
     pdf:        "#",   // preprint PDF (direct download)
-    code:       "#",   // GitHub repository
+    code:       "https://github.com/huyen-nguyen/publication-template",   // GitHub repository
     pubmed:     "#",   // PubMed entry
     ieeexplore: "#",   // IEEE Xplore publication page
     ismb:       "#",   // ISMB presentation materials
