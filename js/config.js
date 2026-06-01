@@ -14,6 +14,24 @@
 
 const CONFIG = {
 
+  /* ---------- 0. LOOK & FEEL  (leave any value "" to keep the default) */
+  theme: {
+    colorMain:   "#0B6E66",       // primary colour (darker shades derive automatically)
+    colorAccent: "#E1583A",       // accent / call-to-action colour
+    fontDisplay: "Crimson Pro",      // headings — any Google Font name
+    fontBody:    "Roboto",   // body text — any Google Font name
+    fontMono:    "Roboto", // labels & code — any Google Font name
+  },
+
+  /* ---------- 0b. BRAND LOGO  (optional) ------------------------------ */
+  // Put an image in assets/ to replace the default coloured mark in the
+  // header + footer. `link` is where clicking the logo/title takes you.
+  brandLogo: {
+    src:  "",            // e.g. "assets/logo.svg"   ("" keeps the default mark)
+    link: "#top",        // e.g. "https://your-lab.org"  (default: back to top)
+    alt:  "VizName",
+  },
+
   /* ---------- 1. PAPER ---------------------------------------- */
   brand:        "VizName",                 // short name in nav + footer
   badge:        "IEEE VIS 2026 · Bioinformatics & Visualization", // small pill above title
@@ -72,7 +90,7 @@ const CONFIG = {
     { title: "Scales to millions of features", text: "GPU-accelerated rendering with level-of-detail aggregation keeps interaction fluid on datasets that overwhelm conventional tools." },
     { title: "Perceptually grounded encodings", text: "Color, position, and density mappings are chosen from perceptual research to minimise misreading and maximise signal." },
     { title: "Open & extensible", text: "A documented plugin API lets researchers add custom views and integrate VizName into existing analysis pipelines." },
-    { title: "Validated with experts", text: "A controlled study with domain scientists shows faster, more accurate pattern discovery versus baseline tools." },
+    // { title: "Validated with experts", text: "A controlled study with domain scientists shows faster, more accurate pattern discovery versus baseline tools." },
   ],
 
   /* ---------- 7. DEMO ----------------------------------------- */
@@ -85,9 +103,10 @@ const CONFIG = {
   },
 
   /* ---------- 8. LOGOS  (institutional / conference) ---------- */
-  // Add { src, alt } image objects. Empty list = show placeholder slots.
+  // Add { src, alt, link } image objects (link is optional).
+  // Empty list = show placeholder slots.
   logos: [
-    // { src: "assets/university-a.svg", alt: "University A" },
+    // { src: "assets/university-a.svg", alt: "University A", link: "https://university-a.edu" },
   ],
 
   /* ---------- 9. FOOTER / CONTACT ----------------------------- */

@@ -11,8 +11,8 @@
   --ink-soft:     #44524F;
   --ink-faint:    #75817E;
   --primary:      #0B6E66;
-  --primary-deep: #064E48;
-  --primary-dark: #052E2B;
+  --primary-deep: color-mix(in srgb, var(--primary) 78%, #000);
+  --primary-dark: color-mix(in srgb, var(--primary) 42%, #000);
   --accent:       #E1583A;
   --gold:         #C49A38;
   --line:         rgba(21, 33, 31, 0.12);
@@ -72,9 +72,11 @@ section[id] { scroll-margin-top: 78px; }
 .nav__brandtext { font-family: var(--font-display); font-size: 1.18rem; letter-spacing: -.01em; }
 .nav__mark { width: 20px; height: 20px; border-radius: 6px; flex: none;
   background: radial-gradient(circle at 30% 30%, var(--gold) 0 18%, transparent 19%),
-    radial-gradient(circle at 72% 70%, var(--accent) 0 18%, transparent 19%),
-    linear-gradient(135deg, var(--primary), var(--primary-deep));
+  radial-gradient(circle at 72% 70%, var(--accent) 0 18%, transparent 19%),
+  linear-gradient(135deg, var(--primary), var(--primary-deep));
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.15); }
+.brand-logo { height: 26px; width: auto; display: block; }
+.footer__brand .brand-logo { height: 30px; margin-bottom: .7rem; }
 .nav__links { display: flex; gap: 1.5rem; margin-left: auto; }
 .nav__links a { color: var(--ink-soft); font-size: .92rem; font-weight: 500; position: relative; padding: .2rem 0; }
 .nav__links a::after { content: ""; position: absolute; left: 0; bottom: -2px; height: 2px; width: 0;
@@ -111,7 +113,7 @@ section[id] { scroll-margin-top: 78px; }
 .hero { position: relative; isolation: isolate; overflow: hidden;
   padding: clamp(2.2rem, 5.5vw, 3.8rem) 0 clamp(1.8rem, 4vw, 2.6rem);
   background: radial-gradient(120% 80% at 82% -10%, color-mix(in srgb, var(--primary) 14%, transparent), transparent 60%),
-    radial-gradient(90% 70% at 0% 0%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 55%), var(--paper); }
+  radial-gradient(90% 70% at 0% 0%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 55%), var(--paper); }
 .hero__net { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; opacity: .5; }
 .hero__grain { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .35;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"); }
@@ -127,7 +129,7 @@ section[id] { scroll-margin-top: 78px; }
 .hero__title { font-family: var(--font-display); font-weight: 600; font-optical-sizing: auto;
   font-size: clamp(2.1rem, 5.4vw, 3.7rem); line-height: 1.04; letter-spacing: -.02em;
   margin-top: 1.1rem; max-width: 18ch; }
-.hero__title-em { display: block; color: var(--primary-deep); font-style: italic; font-weight: 500; }
+.hero__title-em { display: block; color: var(--primary-deep); font-style: normal; font-weight: 600; }
 .hero__desc { font-size: clamp(1.02rem, 1.6vw, 1.18rem); color: var(--ink-soft);
   margin-top: 1rem; max-width: 60ch; line-height: 1.5; }
 .hero__authors { margin-top: 1rem; font-size: 1rem; color: var(--ink); font-weight: 500; }
@@ -231,6 +233,7 @@ section[id] { scroll-margin-top: 78px; }
 .logos__slot { width: 130px; height: 56px; border: 1px dashed var(--line); border-radius: var(--radius-sm);
   display: grid; place-items: center; font-family: var(--font-mono); font-size: .76rem; color: var(--ink-faint); background: var(--paper-2); }
 .logos__slot img { max-height: 40px; width: auto; }
+.logos__slot a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
 
 /* ============================ FOOTER =========================== */
 .footer { background: var(--primary-dark); color: color-mix(in srgb, var(--paper-2) 78%, transparent); padding-top: 2.8rem; }
