@@ -27,6 +27,50 @@
   }
   function safe(fn) { try { fn(); } catch (e) { console.error("[render]", e); } }
 
+  /* ---------- theme: colors + fonts ---------- */
+  safe(function () {
+    var t = C.theme || {};
+    var root = document.documentElement.style;
+    if (has(t.colorMain))   root.setProperty("--primary", t.colorMain);
+    if (has(t.colorAccent)) root.setProperty("--accent", t.colorAccent);
+
+    var defaults = { fontDisplay: "Fraunces", fontBody: "Spline Sans", fontMono: "IBM Plex Mono" };
+    var toLoad = [];
+    [["fontDisplay", "--font-display", ", Georgia, serif"],
+     ["fontBody",    "--font-body",    ", system-ui, sans-serif"],
+     ["fontMono",    "--font-mono",    ", ui-monospace, monospace"]
+    ].forEach(function (spec) {
+      var fam = t[spec[0]];
+      if (!has(fam)) return;
+      fam = fam.trim();
+      root.setProperty(spec[1], '"' + fam + '"' + spec[2]);
+      if (fam !== defaults[spec[0]]) toLoad.push(fam);   // only fetch non-default families
+    });
+    if (toLoad.length) {
+      var url = "https://fonts.googleapis.com/css2?" +
+        toLoad.map(function (f) { return "family=" + encodeURIComponent(f).replace(/%20/g, "+") + ":wght@400;500;600;700"; }).join("&") +
+        "&display=swap";
+      var link = document.createElement("link");
+      link.rel = "stylesheet"; link.href = url;
+      document.head.appendChild(link);
+    }
+  });
+
+  /* ---------- brand logo ---------- */
+  safe(function () {
+    var lg = C.brandLogo || {};
+    if (has(lg.src)) {
+      $all(".nav__mark").forEach(function (mark) {
+        var img = document.createElement("img");
+        img.className = "brand-logo"; img.src = lg.src;
+        img.alt = lg.alt || C.brand || "Logo";
+        mark.replaceWith(img);
+      });
+    }
+    var brand = $(".nav__brand");
+    if (brand && has(lg.link)) brand.setAttribute("href", lg.link);
+  });
+
   /* ---------- meta / brand / hero text ---------- */
   safe(function () {
     setText("[data-brand]", C.brand);
@@ -192,7 +236,13 @@
       if (Array.isArray(C.logos) && C.logos.length) {
         C.logos.forEach(function (lg) {
           var slot = el("div", "logos__slot");
-          var img = el("img"); img.src = lg.src; img.alt = lg.alt || "Logo"; slot.appendChild(img);
+          var img = el("img"); img.src = lg.src; img.alt = lg.alt || "Logo";
+          if (has(lg.link)) {
+            var a = el("a"); a.href = lg.link; a.target = "_blank"; a.rel = "noopener";
+            a.appendChild(img); slot.appendChild(a);
+          } else {
+            slot.appendChild(img);
+          }
           logos.appendChild(slot);
         });
       } else {
