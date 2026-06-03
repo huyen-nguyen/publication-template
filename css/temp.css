@@ -1,0 +1,96 @@
+/* ================== NAV — match personal site ================== */
+
+/* White bar at top of the paper with a light gray rule */
+.nav {
+    position: static;
+    z-index: 100;
+    background: #ffffff;
+    border-bottom: 1px solid #e1e1e1;
+    box-shadow: none;
+}
+
+/* More generous vertical padding, no fixed height */
+.nav__inner {
+    width: 100%;
+    padding: 1.6rem 2.6rem 1.1rem;
+    margin: 0;
+    display: flex;
+    align-items: flex-end;
+    gap: 1.4rem;
+}
+
+/* Brand: just the name, large burgundy text, no square mark */
+.nav__brand {
+    display: block;
+    margin-right: auto;
+    text-decoration: none;
+}
+
+.nav__mark {
+    display: none; /* hide the colored square logo */
+}
+
+.nav__brandtext {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: var(--primary); /* burgundy */
+}
+
+/* Right‑aligned simple text links */
+.nav__links {
+    display: flex;
+    gap: 2.6rem;
+    margin-left: auto;
+}
+
+/* Base style for all top‑nav items (menu + CTA) */
+.nav__links a,
+.nav__cta {
+    position: static;
+    padding: 0;
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: #333333;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    display: inline-block;
+}
+
+/* Remove animated underline bar */
+.nav__links a::after {
+    content: none;
+}
+
+/* Hover / active state: darker text + subtle gray underline */
+.nav__links a:hover,
+.nav__links a.is-active,
+.nav__cta:hover {
+    color: #000000;
+    border-bottom-color: #d2d2d2;
+}
+
+/* Make the CTA look like another text item, placed after the links */
+.nav__cta {
+    margin-left: 2.6rem;
+    border: none;          /* override .btn border */
+    padding-bottom: 0;     /* align baseline with other links */
+}
+
+/* Keep mobile behavior the same as before */
+@media (max-width: 720px) {
+    .nav__inner {
+        padding: 1.1rem 1.2rem 0.9rem;
+        align-items: center;
+    }
+    .nav__links {
+        display: none;
+    }
+    .nav__cta {
+        display: none; /* still shown in the mobile drawer as a button */
+    }
+}

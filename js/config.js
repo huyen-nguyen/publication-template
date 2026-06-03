@@ -16,11 +16,8 @@ const CONFIG = {
 
   /* ---------- 0. LOOK & FEEL  (leave any value "" to keep the default) */
   theme: {
-    colorMain:   "#0B6E66",       // primary colour (darker shades derive automatically)
-    colorAccent: "#E1583A",       // accent / call-to-action colour
-    fontDisplay: "Crimson Pro",      // headings — any Google Font name
-    fontBody:    "Roboto",   // body text — any Google Font name
-    fontMono:    "Roboto", // labels & code — any Google Font name
+    colorMain:   "#802434",       // burgundy brand colour (matches site title)
+    colorAccent: "#a22a3e",       // hover/accent burgundy
   },
 
   /* ---------- 0b. BRAND LOGO  (optional) ------------------------------ */
@@ -33,11 +30,11 @@ const CONFIG = {
   },
 
   /* ---------- 1. PAPER ---------------------------------------- */
-  brand:        "VizName",                 // short name in nav + footer
+  brand:        "Viz Name",                 // short name in nav + footer
   badge:        "IEEE VIS 2026 · Bioinformatics & Visualization", // small pill above title
   title:        "Interactive Visualization for",          // first line of title
   titleEm:      "Genomic Data Exploration",               // accented line (set "" to skip)
-  tagline:      "A scalable, open-source framework that turns millions of genomic features into fluid, interpretable visual narratives — helping researchers find patterns that static plots conceal.",
+  tagline:      "A scalable, open-source framework that turns millions of genomic features into interpretable visual insights, helping researchers find really cool patterns.",
   venue:        "IEEE Transactions on Visualization and Computer Graphics",
   year:         "2026",
   doi:          "10.0000/XXXXXXX",
@@ -77,7 +74,7 @@ const CONFIG = {
   // The formatted citation is built automatically from the fields above.
   // Edit the BibTeX below directly (BibTeX needs "Last, First" name order).
   bibtex:
-`@article{author2026vizname,
+      `@article{author2026vizname,
   title   = {Interactive Visualization for Genomic Data Exploration},
   author  = {One, Author and Two, Author and Three, Author},
   journal = {IEEE Transactions on Visualization and Computer Graphics},
