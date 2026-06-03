@@ -1,9 +1,3 @@
-/* =================================================================
-   VizName — compact academic landing page (config-driven template)
-   Aesthetic: warm editorial (burgundy + taupe + amber). Roboto + Source Code Pro
-   Restyled to match the personal site's look & feel.
-   ================================================================= */
-
 :root {
     /* Paper / surfaces — near-white card on a faint warm texture, matching the
        personal site (white .container over a speckled off-white background). */
@@ -28,7 +22,7 @@
     /* Type — system/Roboto editorial stack, like the personal site. */
     --font-display: -apple-system, system-ui, "Segoe UI", Arial, sans-serif;
     --font-body: -apple-system, system-ui, "Segoe UI", Arial, sans-serif;
-    --font-mono: Monaco, ui-monospace, SFMono-Regular, monospace;
+    --font-mono: -apple-system, system-ui, "Segoe UI", Arial, sans-serif;
 
     --wrap: 1040px; /* close to the site's ~1000px container */
     --radius: 6px; /* the site's gentle 5–6px corners */
@@ -425,7 +419,7 @@ section[id] {
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    padding: clamp(2.2rem, 5.5vw, 3.8rem) 0 clamp(1.8rem, 4vw, 2.6rem);
+    padding: clamp(3rem, 6vw, 4.6rem) 0 clamp(2.4rem, 5vw, 3.4rem);
     background: transparent;
 }
 
@@ -506,7 +500,7 @@ section[id] {
     font-size: clamp(2rem, 5vw, 3.2rem);
     line-height: 1.12;
     letter-spacing: -.005em;
-    margin-top: 1.1rem;
+    margin-top: 1.3rem;
     max-width: 20ch;
     color: #333;
 }
@@ -557,8 +551,8 @@ section[id] {
 
 .hero__meta {
     margin-top: 1.1rem;
-    font-family: var(--font-mono);
-    font-size: .78rem;
+    font-family: var(--font-display);
+    font-size: .9rem;
     color: var(--ink-faint);
 }
 
@@ -593,6 +587,13 @@ section[id] {
 .chip:hover {
     border-color: var(--primary);
     color: var(--primary);
+}
+
+.chip svg {
+    width: 1.1em;
+    height: 1.1em;
+    vertical-align: middle;
+    flex-shrink: 0;
 }
 
 .chip__ico {

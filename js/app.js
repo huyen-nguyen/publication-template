@@ -119,20 +119,21 @@
     var L = C.links || {};
     var demoHref = (C.demo && (has(C.demo.youtubeId) || (C.demo.gifs || []).length)) ? "#demo" : "";
     var defs = [
-      { ico: "📄", label: "Preprint PDF", href: L.pdf },
-      { ico: "💻", label: "Code",         href: L.code },
-      { ico: "▶",  label: "Demo",         href: demoHref },
-      { ico: "🔬", label: "PubMed",       href: L.pubmed },
-      { ico: "📑", label: "IEEE Xplore",  href: L.ieeexplore },
-      { ico: "🧬", label: "ISMB",         href: L.ismb },
-      { ico: "📊", label: "IEEE VIS 2026",href: L.ieeevis },
-      { ico: "❝",  label: "Cite",         href: "#cite", accent: true },
+      { ico: "pdf",     label: "Preprint PDF",  href: L.pdf },
+      { ico: "code",    label: "Code",          href: L.code },
+      { ico: "demo",    label: "Demo",          href: demoHref },
+      { ico: "results", label: "PubMed",        href: L.pubmed },
+      { ico: "arxiv",   label: "IEEE Xplore",   href: L.ieeexplore },
+      { ico: "poster",  label: "ISMB",          href: L.ismb },
+      { ico: "slides",  label: "IEEE VIS 2026", href: L.ieeevis },
+      { ico: "cite",    label: "Cite",          href: "#cite", accent: true },
     ];
     defs.forEach(function (d) {
       if (!has(d.href)) return;
       var a = el("a", "chip" + (d.accent ? " chip--accent" : ""));
       a.href = d.href;
-      a.innerHTML = '<span class="chip__ico" aria-hidden="true">' + d.ico + "</span>" + d.label;
+      var svg = (typeof ICONS !== "undefined" && ICONS[d.ico]) || "";
+      a.innerHTML = svg + d.label;
       box.appendChild(a);
     });
   });
