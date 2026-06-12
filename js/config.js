@@ -55,13 +55,23 @@ const CONFIG = {
 
   /* ---------- 3. LINKS  (leave "" to hide the button) --------- */
   links: {
-    pdf:        "#",   // preprint PDF (direct download)
+    // The main preprint link used by the "Download preprint" buttons AND, by
+    // default, by the PDF Preprint viewer below. It can be:
+    //   • an arxiv link   -> "https://arxiv.org/pdf/2407.20571"  (embeds natively)
+    //   • an OSF link     -> "https://osf.io/preprints/osf/zatw9_v7"  (see note in §10)
+    //   • a local file    -> "assets/preprint.pdf"
+    pdf:        "assets/Geranium_Multimodal_Retrieval_of_Genomics_Data_Visualizations.pdf",
     code:       "https://github.com/huyen-nguyen/publication-template",   // GitHub repository
     pubmed:     "#",   // PubMed entry
     ieeexplore: "#",   // IEEE Xplore publication page
     ismb:       "#",   // ISMB presentation materials
     ieeevis:    "#",   // IEEE VIS 2026 presentation details
     license:    "#",   // license link used in footer
+
+    // OPTIONAL override for ONLY the embedded viewer (the download buttons still
+    // use `pdf` above). Set this to a local copy when the remote host won't embed
+    // (e.g. OSF), e.g. "assets/preprint.pdf". Leave "" to just use `pdf`.
+    preprintPdf: "",
   },
 
   /* ---------- 4. ABSTRACT  (one string per paragraph) -------- */
@@ -112,4 +122,24 @@ const CONFIG = {
   copyrightHolder: "The Authors",
   licenseName:     "CC BY 4.0",
   conferenceName:  "IEEE VIS 2026",   // shown in footer ("Built for ...")
+
+  /* ---------- 10. PDF PREPRINT VIEWER ------------------------- */
+  // Controls how the "PDF Preprint" section (after the Demo) renders the file
+  // from links.pdf (or links.preprintPdf if set). Options:
+  //   "auto"   (default) – arxiv & local files embed directly; OSF links are
+  //                        routed through Google's Docs Viewer so they display
+  //                        instead of forcing a download.
+  //   "direct" – always use a plain <iframe> (best quality; arxiv + local files).
+  //   "google" – always route through Google's Docs Viewer (use for any host
+  //              that refuses to be framed).
+  //
+  // NOTES
+  //   • arxiv: works out of the box — paste either the /abs/ or /pdf/ link.
+  //   • OSF:   paste the preprint page link (e.g.
+  //              "https://osf.io/preprints/osf/zatw9_v7")
+  //            and leave this on "auto". The viewer converts it to the OSF
+  //            download URL and shows it via the Docs Viewer. This is best-effort
+  //            (depends on Google's viewer + a public file). If it doesn't render,
+  //            download the PDF into assets/ and set links.preprintPdf to it.
+  preprintViewer: "auto",
 };
