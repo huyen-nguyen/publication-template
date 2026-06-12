@@ -37,8 +37,8 @@
     var defaults = { fontDisplay: "Fraunces", fontBody: "Spline Sans", fontMono: "IBM Plex Mono" };
     var toLoad = [];
     [["fontDisplay", "--font-display", ", Georgia, serif"],
-     ["fontBody",    "--font-body",    ", system-ui, sans-serif"],
-     ["fontMono",    "--font-mono",    ", ui-monospace, monospace"]
+      ["fontBody",    "--font-body",    ", system-ui, sans-serif"],
+      ["fontMono",    "--font-mono",    ", ui-monospace, monospace"]
     ].forEach(function (spec) {
       var fam = t[spec[0]];
       if (!has(fam)) return;
@@ -48,8 +48,8 @@
     });
     if (toLoad.length) {
       var url = "https://fonts.googleapis.com/css2?" +
-        toLoad.map(function (f) { return "family=" + encodeURIComponent(f).replace(/%20/g, "+") + ":wght@400;500;600;700"; }).join("&") +
-        "&display=swap";
+          toLoad.map(function (f) { return "family=" + encodeURIComponent(f).replace(/%20/g, "+") + ":wght@400;500;600;700"; }).join("&") +
+          "&display=swap";
       var link = document.createElement("link");
       link.rel = "stylesheet"; link.href = url;
       document.head.appendChild(link);
@@ -151,9 +151,9 @@
       var names = (C.authors || []).map(function (a) { return a.name; });
       var authorStr = joinAuthors(names);
       fmt.innerHTML =
-        escapeHtml(authorStr) + " &ldquo;" + escapeHtml(C.title + (C.titleEm ? " " + C.titleEm : "")) +
-        ".&rdquo; <em>" + escapeHtml(C.venue) + "</em>, " + escapeHtml(C.year) +
-        '. DOI: <a href="' + doiUrl(C.doi) + '">' + escapeHtml(C.doi) + "</a>.";
+          escapeHtml(authorStr) + " &ldquo;" + escapeHtml(C.title + (C.titleEm ? " " + C.titleEm : "")) +
+          ".&rdquo; <em>" + escapeHtml(C.venue) + "</em>, " + escapeHtml(C.year) +
+          '. DOI: <a href="' + doiUrl(C.doi) + '">' + escapeHtml(C.doi) + "</a>.";
     }
     var bib = $("#bibtex");
     if (bib) bib.textContent = C.bibtex || "";
@@ -205,6 +205,67 @@
     var hasGifs = gbox && gbox.children.length;
     if (section && !hasVideo && !hasGifs) section.hidden = true;
   });
+
+  /* ---------- PDF preprint viewer ---------- */
+  safe(function () {
+    var section = $("#preprint");
+    if (!section) return;
+    var L = C.links || {};
+
+    // What the "Open in new tab" / download buttons point at (human-facing page).
+    var openUrl = has(L.pdf) ? L.pdf : (has(L.preprintPdf) ? L.preprintPdf : (C.preprintPdf || ""));
+    // What actually gets embedded. Prefer an explicit override (e.g. a local
+    // "assets/preprint.pdf"); otherwise derive it from links.pdf.
+    var rawSrc = has(L.preprintPdf) ? L.preprintPdf
+        : (has(C.preprintPdf) ? C.preprintPdf : L.pdf);
+
+    if (!has(rawSrc)) { section.hidden = true; return; }  // nothing to show -> hide section
+
+    var engine = String(C.preprintViewer || "auto").toLowerCase();
+    var embedSrc = resolvePreprint(rawSrc, engine);
+
+    var frame = $("#preprintFrame");
+    var openBtn = $("#preprintOpen");
+    var fbLink = $("#preprintFallbackLink");
+
+    var human = has(openUrl) ? openUrl : rawSrc;
+    if (openBtn) openBtn.href = human;
+    if (fbLink)  fbLink.href = human;
+    // Note: a cross-origin frame blocked by X-Frame-Options / CSP does NOT fire
+    // a reliable "error" event, so we can't auto-detect a failed embed. The
+    // always-visible "Open in new tab" button + fallback link are the escape hatch.
+    if (frame) frame.src = embedSrc;
+    var wrap = $("#preprintWrap");
+    if (wrap) wrap.hidden = false;
+  });
+
+  // Turn a user-supplied PDF / landing-page URL into something embeddable.
+  //   • arxiv abs|pdf links        -> direct https://arxiv.org/pdf/<id>  (frames natively)
+  //   • OSF preprint/landing links -> Google Docs Viewer wrapping the OSF /download URL
+  //       (OSF forces a file download and blocks framing, so a bare iframe shows
+  //        nothing; the Docs Viewer renders it server-side in a frame-friendly page)
+  //   • local files / direct .pdf  -> used as-is (frames natively)
+  // engine: "auto" (default) | "direct" (always native iframe) | "google" (always Docs Viewer)
+  function resolvePreprint(url, engine) {
+    var u = String(url).trim();
+
+    // arxiv: normalise /abs/, /pdf/, versioned and .pdf forms to a direct pdf URL
+    var ax = u.match(/arxiv\.org\/(?:abs|pdf)\/([^?#]+?)(?:\.pdf)?$/i);
+    if (ax) u = "https://arxiv.org/pdf/" + ax[1];
+
+    // OSF: build the canonical download URL from the (possibly versioned) guid
+    var isOsf = /(?:\/\/|\.|^)osf\.io\//i.test(u);
+    if (isOsf && !/\/download(\/|$|\?)/i.test(u)) {
+      var guid = u.split(/[?#]/)[0].replace(/\/+$/, "").split("/").pop();
+      if (guid) u = "https://osf.io/" + guid + "/download";
+    }
+
+    var useGoogle = engine === "google" || (engine === "auto" && isOsf);
+    if (useGoogle) {
+      return "https://docs.google.com/viewer?embedded=true&url=" + encodeURIComponent(u);
+    }
+    return u;  // native iframe — arxiv, local files, direct PDFs
+  }
 
   /* ---------- authors + affiliations + logos ---------- */
   safe(function () {
@@ -258,7 +319,7 @@
     var fl = $("#footerLinks");
     if (fl) {
       [["Preprint PDF", L.pdf], ["Source code", L.code], ["Demo video", "#demo"],
-       ["PubMed", L.pubmed], ["IEEE Xplore", L.ieeexplore]].forEach(function (pair) {
+        ["PubMed", L.pubmed], ["IEEE Xplore", L.ieeexplore]].forEach(function (pair) {
         if (!has(pair[1])) return;
         var a = el("a", null, pair[0]); a.href = pair[1]; fl.appendChild(a);
       });
@@ -278,8 +339,8 @@
     var copy = $("#footerCopy");
     if (copy) {
       copy.innerHTML = "© " + escapeHtml(String(year)) + " " + escapeHtml(C.copyrightHolder || "") +
-        ". Content under <a href=\"" + (has(C.links && C.links.license) ? C.links.license : "#") + "\">" +
-        escapeHtml(C.licenseName || "CC BY 4.0") + "</a> unless noted.";
+          ". Content under <a href=\"" + (has(C.links && C.links.license) ? C.links.license : "#") + "\">" +
+          escapeHtml(C.licenseName || "CC BY 4.0") + "</a> unless noted.";
     }
     var conf = $("#footerConf");
     if (conf && has(C.conferenceName)) {
@@ -289,7 +350,7 @@
 
   function escapeHtml(s) {
     return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
   /* ================= INTERACTIONS ================= */
