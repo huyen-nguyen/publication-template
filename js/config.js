@@ -17,6 +17,8 @@ const CONFIG = {
   /* ---------- 0. LOOK & FEEL  (leave any value "" to keep the default) */
   theme: {
     colorMain:   "#802434",       // burgundy brand colour (matches site title)
+    colorMainDark:   "#5c1a26",
+    colorSecondary:   "#814B38",
     colorAccent: "#a22a3e",       // hover/accent burgundy
   },
 
@@ -60,7 +62,7 @@ const CONFIG = {
     //   • an arxiv link   -> "https://arxiv.org/pdf/2407.20571"  (embeds natively)
     //   • an OSF link     -> "https://osf.io/preprints/osf/zatw9_v7"  (see note in §10)
     //   • a local file    -> "assets/preprint.pdf"
-    pdf:        "assets/Geranium_Multimodal_Retrieval_of_Genomics_Data_Visualizations.pdf",
+    pdf:        "https://arxiv.org/pdf/2510.16662",
     code:       "https://github.com/huyen-nguyen/publication-template",   // GitHub repository
     pubmed:     "#",   // PubMed entry
     ieeexplore: "#",   // IEEE Xplore publication page
@@ -74,10 +76,28 @@ const CONFIG = {
     preprintPdf: "",
   },
 
+  /* ---------- 3b. CUSTOM CHIPS  (extra quick-link buttons) ---- */
+  // Add your own chips to the quick-links row (between the built-in links and
+  // the "Cite" button). Each item: { icon, label, href }.
+  //   icon  – an icon name from js/icons.js (e.g. "youtube", "video", "website",
+  //           "blog", "dataset", "colab", "huggingface", "x", "email", "star"),
+  //           OR raw inline SVG markup (anything starting with "<svg ...>"),
+  //           OR "" for no icon.
+  //   href  – the URL. http(s) links open in a new tab. Leave "" to hide the chip.
+  // Remove the examples or set the list to []  to show no custom chips.
+  customChips: [
+    // { icon: "youtube", label: "YouTube", href: "https://www.youtube.com/watch?v=VIDEO_ID" },
+    // { icon: "website", label: "Project page", href: "https://your-lab.org/project" },
+    { icon: "star", label: "Icons", href: "https://huyen-nguyen.github.io/iframe/icons" }
+    // List of icons: https://huyen-nguyen.github.io/iframe/icons
+    // No matching icon in icons.js? Paste raw SVG instead:
+    // { icon: "<svg viewBox='0 0 24 24' width='24' height='24'>...</svg>", label: "Custom", href: "#" },
+  ],
+
   /* ---------- 4. ABSTRACT  (one string per paragraph) -------- */
   abstract: [
-    "Modern high-throughput sequencing produces datasets far larger than conventional charting tools can render interactively. We introduce VizName, an open-source visualization framework that combines a GPU-accelerated rendering pipeline with a perceptually grounded encoding system to support fluid exploration of multi-omic data at scale.",
-    "Through level-of-detail aggregation and progressive loading, VizName maintains sub-100 ms interaction latency on datasets exceeding ten million features. In a study with domain experts, participants identified biologically meaningful patterns significantly faster than with existing tools.",
+    "Effective visualization retrieval necessitates a clear definition of similarity. Despite the growing body of work in specialized visualization retrieval systems, a systematic approach to understanding visualization similarity remains absent. We introduce the Similarity Framework for Visualization Retrieval (Safire), a conceptual model that frames visualization similarity along two dimensions: comparison criteria and representation modalities. Comparison criteria identify the aspects that make visualizations similar, which we divide into primary facets (data, visual encoding, interaction, style, metadata) and derived properties (data-centric and human-centric measures). ",
+    "Safire connects what to compare with how comparisons are executed through representation modalities. We categorize existing representation approaches into four groups based on their levels of information content and visualization determinism: raster image, vector image, specification, and natural language description, together guiding what is computable and comparable. We analyze several visualization retrieval systems using Safire to demonstrate its practical value in clarifying similarity considerations. Our findings reveal how particular criteria and modalities align across different use cases. Notably, the choice of representation modality is not only an implementation detail but also an important decision that shapes retrieval capabilities and limitations. Based on our analysis, we provide recommendations and discuss broader implications for multimodal learning, AI applications, and visualization reproducibility.\n",
   ],
 
   /* ---------- 5. CITATION ------------------------------------- */
@@ -99,6 +119,15 @@ const CONFIG = {
     { title: "Open & extensible", text: "A documented plugin API lets researchers add custom views and integrate VizName into existing analysis pipelines." },
     // { title: "Validated with experts", text: "A controlled study with domain scientists shows faster, more accurate pattern discovery versus baseline tools." },
   ],
+
+  /* ---------- 6b. TEASER FIGURE  (shown under Highlights) ----- */
+  // A single overview / method figure. Drop the image in assets/.
+  // Set src "" to hide the whole figure.
+  teaser: {
+    src:     "https://huyennguyen.com/assets/images/papers/Dissertation.png",   // e.g. "assets/teaser.png"   ("" hides it)
+    alt:     "System overview of VizName",
+    caption: "Overview of the VizName pipeline — from raw multi-omic input to interactive visual exploration.",
+  },
 
   /* ---------- 7. DEMO ----------------------------------------- */
   demo: {
