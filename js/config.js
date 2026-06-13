@@ -66,8 +66,8 @@ const CONFIG = {
     code:       "https://github.com/huyen-nguyen/publication-template",   // GitHub repository
     pubmed:     "#",   // PubMed entry
     ieeexplore: "#",   // IEEE Xplore publication page
-    // ismb:       "#",   // ISMB presentation materials
-    // ieeevis:    "#",   // IEEE VIS 2026 presentation details
+    ismb:       "#",   // ISMB presentation materials
+    ieeevis:    "#",   // IEEE VIS 2026 presentation details
     license:    "#",   // license link used in footer
 
     // OPTIONAL override for ONLY the embedded viewer (the download buttons still
@@ -86,8 +86,9 @@ const CONFIG = {
   //   href  – the URL. http(s) links open in a new tab. Leave "" to hide the chip.
   // Remove the examples or set the list to []  to show no custom chips.
   customChips: [
-    { icon: "youtube", label: "YouTube", href: "https://www.youtube.com/watch?v=VIDEO_ID" },
+    // { icon: "youtube", label: "YouTube", href: "https://www.youtube.com/watch?v=VIDEO_ID" },
     // { icon: "website", label: "Project page", href: "https://your-lab.org/project" },
+    { icon: "star", label: "Icons", href: "https://huyen-nguyen.github.io/iframe/icons" }
     // No matching icon in icons.js? Paste raw SVG instead:
     // { icon: "<svg viewBox='0 0 24 24' width='24' height='24'>...</svg>", label: "Custom", href: "#" },
   ],

@@ -132,8 +132,6 @@
     }
 
     var defs = [
-      { icon: "pdf",     label: "Preprint PDF",  href: L.pdf },
-      { icon: "code",    label: "Code",          href: L.code },
       { icon: "demo",    label: "Demo",          href: demoHref },
       { icon: "results", label: "PubMed",        href: L.pubmed },
       { icon: "arxiv",   label: "IEEE Xplore",   href: L.ieeexplore },
