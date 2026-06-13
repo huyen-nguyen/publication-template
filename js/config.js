@@ -89,6 +89,7 @@ const CONFIG = {
     // { icon: "youtube", label: "YouTube", href: "https://www.youtube.com/watch?v=VIDEO_ID" },
     // { icon: "website", label: "Project page", href: "https://your-lab.org/project" },
     { icon: "star", label: "Icons", href: "https://huyen-nguyen.github.io/iframe/icons" }
+    // List of icons: https://huyen-nguyen.github.io/iframe/icons
     // No matching icon in icons.js? Paste raw SVG instead:
     // { icon: "<svg viewBox='0 0 24 24' width='24' height='24'>...</svg>", label: "Custom", href: "#" },
   ],
