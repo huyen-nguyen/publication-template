@@ -120,22 +120,41 @@
     var box = $("#chips"); if (!box) return;
     var L = C.links || {};
     var demoHref = (C.demo && (has(C.demo.youtubeId) || (C.demo.gifs || []).length)) ? "#demo" : "";
+
+    // Resolve a chip's icon. `icon` may be:
+    //   • a name from icons.js  (e.g. "youtube", "video", "website")
+    //   • raw inline SVG markup (anything starting with "<")
+    //   • "" / omitted          (renders the chip with no icon)
+    function chipIcon(icon) {
+      if (!has(icon)) return "";
+      if (/^\s*</.test(icon)) return icon;                         // raw SVG passed inline
+      return (typeof ICONS !== "undefined" && ICONS[icon]) || ""; // named icon from icons.js
+    }
+
     var defs = [
-      { ico: "pdf",     label: "Preprint PDF",  href: L.pdf },
-      { ico: "code",    label: "Code",          href: L.code },
-      { ico: "demo",    label: "Demo",          href: demoHref },
-      { ico: "results", label: "PubMed",        href: L.pubmed },
-      { ico: "arxiv",   label: "IEEE Xplore",   href: L.ieeexplore },
-      { ico: "poster",  label: "ISMB",          href: L.ismb },
-      { ico: "slides",  label: "IEEE VIS 2026", href: L.ieeevis },
-      { ico: "cite",    label: "Cite",          href: "#cite", accent: true },
+      { icon: "pdf",     label: "Preprint PDF",  href: L.pdf },
+      { icon: "code",    label: "Code",          href: L.code },
+      { icon: "demo",    label: "Demo",          href: demoHref },
+      { icon: "results", label: "PubMed",        href: L.pubmed },
+      { icon: "arxiv",   label: "IEEE Xplore",   href: L.ieeexplore },
+      { icon: "poster",  label: "ISMB",          href: L.ismb },
+      { icon: "slides",  label: "IEEE VIS 2026", href: L.ieeevis },
     ];
+
+    // User-defined chips from config (e.g. a YouTube link). Inserted before the
+    // accent "Cite" chip so that stays last. Each item: { icon, label, href, accent }.
+    (C.customChips || []).forEach(function (c) { if (c) defs.push(c); });
+
+    defs.push({ icon: "cite", label: "Cite", href: "#cite", accent: true });
+
     defs.forEach(function (d) {
       if (!has(d.href)) return;
       var a = el("a", "chip" + (d.accent ? " chip--accent" : ""));
       a.href = d.href;
-      var svg = (typeof ICONS !== "undefined" && ICONS[d.ico]) || "";
-      a.innerHTML = svg + d.label;
+      // Open external links (http/https) in a new tab; keep in-page #anchors local.
+      if (/^https?:/i.test(d.href)) { a.target = "_blank"; a.rel = "noopener"; }
+      // icon (named or raw) + escaped label
+      a.innerHTML = chipIcon(d.icon) + escapeHtml(d.label || "");
       box.appendChild(a);
     });
   });
@@ -143,7 +162,24 @@
   /* ---------- abstract ---------- */
   safe(function () {
     var body = $("#abstractBody"); if (!body) return;
-    (C.abstract || []).forEach(function (p) { body.appendChild(el("p", null, escapeHtml(p))); });
+    var paras = C.abstract || [];
+    // First paragraph is always visible. On phones the rest collapse behind a
+    // "Show more" toggle (CSS handles the breakpoint); on larger screens they
+    // are all shown and the toggle stays hidden.
+    paras.forEach(function (p, i) {
+      body.appendChild(el("p", i === 0 ? null : "abstract__extra", escapeHtml(p)));
+    });
+    if (paras.length > 1) {
+      var btn = el("button", "abstract__toggle", "Show more");
+      btn.type = "button";
+      btn.setAttribute("aria-expanded", "false");
+      btn.addEventListener("click", function () {
+        var open = body.classList.toggle("is-expanded");
+        btn.setAttribute("aria-expanded", String(open));
+        btn.textContent = open ? "Show less" : "Show more";
+      });
+      body.appendChild(btn);
+    }
   });
 
   /* ---------- citation (formatted + BibTeX) ---------- */
@@ -178,6 +214,21 @@
       card.appendChild(el("p", null, escapeHtml(h.text)));
       grid.appendChild(card);
     });
+  });
+
+  /* ---------- teaser figure (under highlights) ---------- */
+  safe(function () {
+    var fig = $("#teaser"); if (!fig) return;
+    var t = C.teaser || {};
+    if (!has(t.src)) { fig.hidden = true; return; }   // no image -> hide figure
+    var img = $("#teaserImg");
+    if (img) {
+      img.src = t.src;
+      img.alt = has(t.alt) ? t.alt : "";
+    }
+    var cap = $("#teaserCaption");
+    if (cap) cap.textContent = has(t.caption) ? t.caption : "";
+    fig.hidden = false;
   });
 
   /* ---------- demo (video + gifs) ---------- */

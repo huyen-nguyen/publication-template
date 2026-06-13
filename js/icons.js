@@ -22,6 +22,7 @@ const ICONS = {
     /* — media — */
     demo: S(`<rect x="3.5" y="4.5" width="17" height="13" rx="2"/><path d="M8.5 21h7M12 17.5V21"/><path d="M10.5 8.8l4 2.7-4 2.7z"/>`),
     video: S(`<circle cx="12" cy="12" r="8.5"/><path d="M10.3 8.6l5 3.4-5 3.4z"/>`),
+    youtube: S(`<rect x="2.8" y="6" width="18.4" height="12" rx="3.4"/><path d="M10.3 9.4l4.6 2.6-4.6 2.6z"/>`),
     slides: S(`<rect x="3.5" y="4.5" width="17" height="11" rx="1.6"/><path d="M12 15.5v3.5M9 19h6"/><path d="M8.5 12V9.5M12 12V7.8M15.5 12v-1.5"/>`),
     poster: S(`<rect x="4" y="4" width="16" height="16" rx="2.2"/><circle cx="9" cy="9.2" r="1.5"/><path d="M5 16.5l4-3.8 3.2 3 3-3.6L20 16"/>`),
 
