@@ -17,6 +17,8 @@ const CONFIG = {
   /* ---------- 0. LOOK & FEEL  (leave any value "" to keep the default) */
   theme: {
     colorMain:   "#802434",       // burgundy brand colour (matches site title)
+    colorMainDark:   "#5c1a26",
+    colorSecondary:   "#814B38",
     colorAccent: "#a22a3e",       // hover/accent burgundy
   },
 

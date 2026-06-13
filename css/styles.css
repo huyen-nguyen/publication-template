@@ -3,7 +3,7 @@
        personal site (white .container over a speckled off-white background). */
     --paper: #f7f7f5; /* page background behind the card */
     --paper-2: #fcfcfb; /* alt sections / subtle raised surfaces */
-    --paper-card: #ffffff; /* white content cards */
+    --paper-card: #f8f8f8; /* white content cards */
     --ink: #222222; /* body text */
     --ink-soft: #4a4a4a; /* secondary text */
     --ink-faint: #8a8a8a; /* muted captions / meta */
@@ -15,7 +15,6 @@
     --primary-dark: #5c1a26; /* deep burgundy (footer / bibtex) */
     --accent: #a22a3e; /* hover burgundy / links accent */
     --secondary: #814B38; /* taupe-brown (citations, emphasis) */
-    --gold: #ed9f45; /* warm amber (callout accents) */
     --line: rgba(34, 34, 34, 0.12);
     --line-soft: rgba(34, 34, 34, 0.07);
 
@@ -198,7 +197,7 @@ section[id] {
     z-index: 100;
     background: transparent;
     border-bottom: 1px solid var(--line);
-  margin: 2rem;
+    margin: 2rem;
 }
 
 .nav.is-scrolled {
@@ -211,7 +210,7 @@ section[id] {
     align-items: center;
     gap: 1.4rem;
     height: 60px;
-  padding: 2.5rem 0 2rem;
+    padding: 2.5rem 0 2rem;
 
 }
 
@@ -238,7 +237,7 @@ section[id] {
     height: 20px;
     border-radius: 6px;
     flex: none;
-    background: radial-gradient(circle at 30% 30%, var(--gold) 0 18%, transparent 19%),
+    background: radial-gradient(circle at 30% 30%, var(--secondary) 0 18%, transparent 19%),
     radial-gradient(circle at 72% 70%, var(--accent) 0 18%, transparent 19%),
     linear-gradient(135deg, var(--primary), var(--primary-deep));
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .15);
@@ -262,33 +261,33 @@ section[id] {
 }
 
 .nav__links a {
-  color: var(--ink-soft);
-  font-size: 1rem;
-  font-weight: 500;
-  position: relative;
-  padding: .2rem 0;
-  text-decoration: none; /* keep this so only the custom line shows */
+    color: var(--ink-soft);
+    font-size: 1rem;
+    font-weight: 500;
+    position: relative;
+    padding: .2rem 0;
+    text-decoration: none; /* keep this so only the custom line shows */
 }
 
 .nav__links a::after {
-  content: "";              /* was: none */
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  height: 1.5px;
-  width: 0;
-  background: var(--ink-soft);
-  /*transition: width .1s var(--ease);*/
+    content: "";              /* was: none */
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1.5px;
+    width: 0;
+    background: var(--ink-soft);
+    /*transition: width .1s var(--ease);*/
 }
 
 .nav__links a:hover,
 .nav__links a.is-active {
-  color: var(--ink);
+    color: var(--ink);
 }
 
 .nav__links a.is-active::after,
 .nav__links a:hover::after {
-  width: 100%;              /* animate underline in */
+    width: 100%;              /* animate underline in */
 }
 
 .nav__links a:hover, .nav__links a.is-active {
@@ -362,9 +361,9 @@ section[id] {
 }
 
 @media (max-width: 720px) {
-.nav{
-  margin: 0 0 0 1rem;
-}
+    .nav{
+        margin: 0 0 0 1rem;
+    }
 
 }
 
@@ -463,7 +462,7 @@ section[id] {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: var(--gold);
+    background: var(--secondary);
     /*animation: pulse 2.4s var(--ease) infinite;*/
 }
 
@@ -683,7 +682,7 @@ section[id] {
 .cite__formatted {
     background: var(--paper-card);
     border: 1px solid var(--line);
-    border-left: 4px solid var(--gold);
+    border-left: 4px solid var(--primary);
     border-radius: var(--radius-sm);
     padding: 1rem 1.2rem;
     font-size: .96rem;
@@ -693,7 +692,7 @@ section[id] {
 }
 
 .cite__formatted em {
-    color: var(--secondary);
+    color: var(--primary);
 }
 
 .cite__bibtex {
@@ -749,8 +748,8 @@ section[id] {
 }
 
 .btn--copy.is-copied {
-    background: var(--gold);
-    border-color: var(--gold);
+    background: var(--primary);
+    border-color: var(--primary);
     color: var(--ink);
 }
 
@@ -776,7 +775,7 @@ section[id] {
     position: absolute;
     inset: 0 auto 0 0;
     width: 3px;
-    background: linear-gradient(var(--primary), var(--gold));
+    background: linear-gradient(var(--primary), var(--secondary));
     transform: scaleY(0);
     transform-origin: top;
     transition: transform .35s var(--ease);
@@ -785,7 +784,7 @@ section[id] {
 .card:hover {
     box-shadow: var(--shadow-md);
     border-color: var(--primary);
-  transition: .3s;
+    transition: .3s;
 }
 
 /*.card:hover::before {*/

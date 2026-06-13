@@ -32,6 +32,8 @@
     var t = C.theme || {};
     var root = document.documentElement.style;
     if (has(t.colorMain))   root.setProperty("--primary", t.colorMain);
+    if (has(t.colorMainDark))   root.setProperty("--primary-dark", t.colorMainDark);
+    if (has(t.colorSecondary))   root.setProperty("--secondary", t.colorSecondary);
     if (has(t.colorAccent)) root.setProperty("--accent", t.colorAccent);
 
     var defaults = { fontDisplay: "Fraunces", fontBody: "Spline Sans", fontMono: "IBM Plex Mono" };
