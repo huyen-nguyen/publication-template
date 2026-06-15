@@ -233,13 +233,14 @@
     }
 
     var defs = [
+      { icon: "dataset",    label: "Data",          href: L.data },
       { icon: "demo",    label: "Demo",          href: demoHref },
-      { icon: "results", label: "PubMed",        href: L.pubmed },
-      { icon: "arxiv",   label: "IEEE Xplore",   href: L.ieeexplore },
-      { icon: "poster",  label: "ISMB",          href: L.ismb },
-      { icon: "slides",  label: "IEEE VIS 2026", href: L.ieeevis },
+      { icon: "pdf",   label: "IEEE Xplore",   href: L.ieeexplore },
+      { icon: "arxiv", label: "PubMed",        href: L.pubmed },
+      { icon: "slides",  label: "IEEE VIS", href: L.ieeevis },
+      { icon: "slides",  label: "ISMB BioVis",   href: L.ismb },
       { icon: "results", label: "Supplement",    href: L.supplement },
-      { icon: "youtube", label: "Video",         href: L.video,}
+      { icon: "video", label: "Video",         href: L.video,}
     ];
 
     // User-defined chips from config (e.g. a YouTube link). Inserted before the

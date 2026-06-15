@@ -66,14 +66,15 @@ const CONFIG = {
     //   • an OSF link     -> "https://osf.io/preprints/osf/zatw9_v7"  (see note in §10)
     //   • a local file    -> "assets/preprint.pdf"
     pdf:        "https://arxiv.org/pdf/2510.16662",
-    code:       "https://github.com/huyen-nguyen/publication-template",   // GitHub repository
-    pubmed:     "#",   // PubMed entry
+    code:       "#",   // GitHub repository
+    data:       "#",
     ieeexplore: "#",   // IEEE Xplore publication page
-    ieeevis:    "",   // IEEE VIS 2026 presentation details
+    pubmed:     "#",   // PubMed entry
+    ieeevis:    "#",   // IEEE VIS 2026 presentation details
+    ismb:       "#",
+    supplement: "#",
+    video:      "#",
     license:    "",   // license link used in footer
-    ismb:       "",
-    supplement: "https://osf.io/kdfr3/",
-    video: "https://www.youtube.com/watch?v=h_Qm7L_C4CA",
 
     // OPTIONAL override for ONLY the embedded viewer (the download buttons still
     // use `pdf` above). Set this to a local copy when the remote host won't embed
@@ -84,7 +85,7 @@ const CONFIG = {
   /* ---------- 3b. CUSTOM CHIPS  (extra quick-link buttons) ---- */
   customChips: [
     // { icon: "youtube", label: "YouTube", href: "https://www.youtube.com/watch?v=VIDEO_ID" },
-    { icon: "website", label: "Project page", href: "https://your-lab.org/project" },
+    { icon: "star", label: "Custom Chip", href: "https://your-lab.org/project" },
     // List of icons: https://huyen-nguyen.github.io/iframe/icons
     // No matching icon in icons.js? Paste raw SVG instead:
     // { icon: "<svg viewBox='0 0 24 24' width='24' height='24'>...</svg>", label: "Custom", href: "#" },
