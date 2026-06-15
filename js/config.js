@@ -18,15 +18,15 @@ const CONFIG = {
   theme: {
     colorMain:   "#802434",       // burgundy brand colour (matches site title)
     colorMainDark:   "#5c1a26",
-    colorSecondary:   "#814B38",
-    colorAccent: "#a22a3e",       // hover/accent burgundy
+    colorSecondary:   "#202f80",
+    colorAccent: "#1a3e96",       // hover/accent burgundy
   },
 
   /* ---------- 0b. BRAND LOGO  (optional) ------------------------------ */
   // Put an image in assets/ to replace the default coloured mark in the
   // header + footer. `link` is where clicking the logo/title takes you.
   brandLogo: {
-    src:  "",            // e.g. "assets/logo.svg"   ("" keeps the default mark)
+    src:  "https://raw.githubusercontent.com/gosling-lang/geranium/refs/heads/main/assets/logos-03.png",            // e.g. "assets/logo.svg"   ("" keeps the default mark)
     link: "#top",        // e.g. "https://your-lab.org"  (default: back to top)
     alt:  "VizName",
   },
@@ -45,11 +45,14 @@ const CONFIG = {
   // `aff` lists the affiliation numbers (see `affiliations` below).
   // Any link left "" is hidden for that author.
   authors: [
+    // { name: "Huyen N. Nguyen",   aff: [1],    website: "https://huyennguyen.com/", scholar: "https://scholar.google.com/citations?user=tsrO-ZgAAAAJ&hl=en", orcid: "https://orcid.org/0000-0001-6554-2327" },
+    // { name: "Nils Gehlenborg", aff: [1], website: "https://hidivelab.org/team/members/nils-gehlenborg/", scholar: "https://scholar.google.com/citations?user=YEcBVFAAAAAJ&hl=en"},
     { name: "Author One",   aff: [1],    website: "#", scholar: "#", orcid: "#" },
     { name: "Author Two",   aff: [2],    website: "#", scholar: "#", orcid: "#" },
     { name: "Author Three", aff: [1, 3], website: "#", scholar: "#", orcid: "#" },
   ],
   affiliations: [
+    // "Dept. of Biomedical Informatics, Harvard Medical School, Harvard University",   // 1
     "Dept. of Computational Biology, University A",   // 1
     "Institute of Data Visualization, University B",  // 2
     "Lab C, Research Center",                         // 3
@@ -63,32 +66,26 @@ const CONFIG = {
     //   • an OSF link     -> "https://osf.io/preprints/osf/zatw9_v7"  (see note in §10)
     //   • a local file    -> "assets/preprint.pdf"
     pdf:        "https://arxiv.org/pdf/2510.16662",
-    code:       "https://github.com/huyen-nguyen/publication-template",   // GitHub repository
-    pubmed:     "#",   // PubMed entry
+    code:       "#",   // GitHub repository
+    data:       "#",
     ieeexplore: "#",   // IEEE Xplore publication page
-    ismb:       "#",   // ISMB presentation materials
+    pubmed:     "#",   // PubMed entry
     ieeevis:    "#",   // IEEE VIS 2026 presentation details
-    license:    "#",   // license link used in footer
+    ismb:       "#",
+    supplement: "#",
+    video:      "#",
+    license:    "",   // license link used in footer
 
-    // OPTIONAL override for ONLY the embedded viewer (the download buttons still
-    // use `pdf` above). Set this to a local copy when the remote host won't embed
-    // (e.g. OSF), e.g. "assets/preprint.pdf". Leave "" to just use `pdf`.
-    preprintPdf: "",
+    // Leave "" to just use `pdf`.
+    // OPTIONAL override for ONLY the embedded viewer. Set this to a local copy when the remote host won't embed
+    // (e.g. OSF), e.g. "assets/preprint.pdf".
+    preprintPdf: "", // local file
   },
 
   /* ---------- 3b. CUSTOM CHIPS  (extra quick-link buttons) ---- */
-  // Add your own chips to the quick-links row (between the built-in links and
-  // the "Cite" button). Each item: { icon, label, href }.
-  //   icon  – an icon name from js/icons.js (e.g. "youtube", "video", "website",
-  //           "blog", "dataset", "colab", "huggingface", "x", "email", "star"),
-  //           OR raw inline SVG markup (anything starting with "<svg ...>"),
-  //           OR "" for no icon.
-  //   href  – the URL. http(s) links open in a new tab. Leave "" to hide the chip.
-  // Remove the examples or set the list to []  to show no custom chips.
   customChips: [
     // { icon: "youtube", label: "YouTube", href: "https://www.youtube.com/watch?v=VIDEO_ID" },
-    // { icon: "website", label: "Project page", href: "https://your-lab.org/project" },
-    { icon: "star", label: "Icons", href: "https://huyen-nguyen.github.io/iframe/icons" }
+    { icon: "star", label: "Custom Chip", href: "https://your-lab.org/project" },
     // List of icons: https://huyen-nguyen.github.io/iframe/icons
     // No matching icon in icons.js? Paste raw SVG instead:
     // { icon: "<svg viewBox='0 0 24 24' width='24' height='24'>...</svg>", label: "Custom", href: "#" },
@@ -101,8 +98,6 @@ const CONFIG = {
   ],
 
   /* ---------- 5. CITATION ------------------------------------- */
-  // The formatted citation is built automatically from the fields above.
-  // Edit the BibTeX below directly (BibTeX needs "Last, First" name order).
   bibtex:
       `@article{author2026vizname,
   title   = {Interactive Visualization for Genomic Data Exploration},
@@ -112,7 +107,14 @@ const CONFIG = {
   doi     = {10.0000/XXXXXXX}
 }`,
 
-  /* ---------- 6. HIGHLIGHTS  (cards; add/remove freely) ------- */
+  /* ---------- 6a. TEASER FIGURE  (shown under Highlights) ----- */
+  teaser: {
+    src:     "https://huyennguyen.com/assets/images/papers/Dissertation.png",   // e.g. "assets/teaser.png"   ("" hides it)
+    alt:     "System overview of VizName",
+    caption: "Overview of the VizName pipeline — from raw multi-omic input to interactive visual exploration.",
+  },
+  /* ---------- 6b. HIGHLIGHTS  (cards; add/remove freely) ------- */
+
   highlights: [
     { title: "Scales to millions of features", text: "GPU-accelerated rendering with level-of-detail aggregation keeps interaction fluid on datasets that overwhelm conventional tools." },
     { title: "Perceptually grounded encodings", text: "Color, position, and density mappings are chosen from perceptual research to minimise misreading and maximise signal." },
@@ -120,14 +122,9 @@ const CONFIG = {
     // { title: "Validated with experts", text: "A controlled study with domain scientists shows faster, more accurate pattern discovery versus baseline tools." },
   ],
 
-  /* ---------- 6b. TEASER FIGURE  (shown under Highlights) ----- */
-  // A single overview / method figure. Drop the image in assets/.
-  // Set src "" to hide the whole figure.
-  teaser: {
-    src:     "https://huyennguyen.com/assets/images/papers/Dissertation.png",   // e.g. "assets/teaser.png"   ("" hides it)
-    alt:     "System overview of VizName",
-    caption: "Overview of the VizName pipeline — from raw multi-omic input to interactive visual exploration.",
-  },
+  /* ---------- 6c. ABOUT THE NAME  (note under Highlights; "" hides it) */
+  aboutName:
+      "Geranium stands for ***s**calable, open-source f**ra**mework that turns mill**i**ons of genomic features* into interpretable visual insights, helping researchers find really cool patterns. The logo is drawn with illustrator.",
 
   /* ---------- 7. DEMO ----------------------------------------- */
   demo: {
@@ -141,13 +138,14 @@ const CONFIG = {
   /* ---------- 8. LOGOS  (institutional / conference) ---------- */
   // Add { src, alt, link } image objects (link is optional).
   // Empty list = show placeholder slots.
-  logos: [
-    // { src: "assets/university-a.svg", alt: "University A", link: "https://university-a.edu" },
-  ],
+  // logos: [
+  //   { src: "https://hms.harvard.edu/themes/shared/harvardmedical/logo.svg", alt: "Harvard Medical School", link: "https://hms.harvard.edu/" },
+  //   { src: "assets/hidivelogo.png", alt: "HIDIVE Lab", link: "https://hidivelab.org/" },
+  // ],
 
   /* ---------- 9. FOOTER / CONTACT ----------------------------- */
-  contactEmail:    "contact@example.edu",
-  contactNote:     "University A · University B",
+  contactEmail:    "huyen@harvard.edu",
+  contactNote:     "Harvard University",
   copyrightHolder: "The Authors",
   licenseName:     "CC BY 4.0",
   conferenceName:  "IEEE VIS 2026",   // shown in footer ("Built for ...")
@@ -170,5 +168,5 @@ const CONFIG = {
   //            download URL and shows it via the Docs Viewer. This is best-effort
   //            (depends on Google's viewer + a public file). If it doesn't render,
   //            download the PDF into assets/ and set links.preprintPdf to it.
-  preprintViewer: "auto",
+  preprintViewer: "direct",
 };
