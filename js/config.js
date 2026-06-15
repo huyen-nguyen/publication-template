@@ -76,10 +76,10 @@ const CONFIG = {
     video:      "#",
     license:    "",   // license link used in footer
 
-    // OPTIONAL override for ONLY the embedded viewer (the download buttons still
-    // use `pdf` above). Set this to a local copy when the remote host won't embed
-    // (e.g. OSF), e.g. "assets/preprint.pdf". Leave "" to just use `pdf`.
-    preprintPdf: "",
+    // Leave "" to just use `pdf`.
+    // OPTIONAL override for ONLY the embedded viewer. Set this to a local copy when the remote host won't embed
+    // (e.g. OSF), e.g. "assets/preprint.pdf".
+    preprintPdf: "", // local file
   },
 
   /* ---------- 3b. CUSTOM CHIPS  (extra quick-link buttons) ---- */
