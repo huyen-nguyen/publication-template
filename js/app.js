@@ -1,6 +1,12 @@
 /* ==================================================================
    app.js — builds the page from CONFIG (see config.js) and wires up
    the interactions. You normally don't need to edit this file.
+
+   FORMATTING: text fields that go through inlineMd() support light
+   inline markdown — **bold**, *italic*, `code`, and [label](url).
+   Currently enabled for: abstract paragraphs, highlight title/text,
+   teaser caption, and gif captions. Everything is HTML-escaped first,
+   so it stays safe to hand-author in config.js.
    ================================================================== */
 (function () {
   "use strict";
@@ -80,8 +86,8 @@
     setText("[data-title]", C.title);
     var em = $("[data-title-em]");
     if (em) { if (has(C.titleEm)) { em.textContent = C.titleEm; } else { em.remove(); } }
-    setText("[data-tagline]", C.tagline);
-    setText("[data-tagline-short]", C.tagline);
+    $all("[data-tagline]").forEach(function (n) { n.innerHTML = inlineMd(C.tagline); });
+    $all("[data-tagline-short]").forEach(function (n) { n.innerHTML = inlineMd(C.tagline); });
 
     var meta = $("#heroMeta");
     if (meta) {
@@ -93,19 +99,114 @@
 
   function doiUrl(doi) { return has(doi) ? ("https://doi.org/" + doi) : "#"; }
 
-  /* ---------- author byline (hero) ---------- */
+  /* ---------- author byline (hero) with Nature-style popovers ---------- */
   safe(function () {
     var line = $("#authorline");
     if (!line || !Array.isArray(C.authors)) return;
+
+    function closeAll() {
+      $all(".byline-author.is-open").forEach(function (sp) {
+        sp.classList.remove("is-open");
+        var b = $(".byline-author__name", sp), p = $(".author-pop", sp);
+        if (b) b.setAttribute("aria-expanded", "false");
+        if (p) p.hidden = true;
+      });
+    }
+
     C.authors.forEach(function (au, i) {
-      var a = el("a"); a.textContent = au.name;
-      a.href = has(au.website) ? au.website : (has(au.scholar) ? au.scholar : "#");
-      line.appendChild(a);
+      var span = el("span", "byline-author");
+
+      // clickable name (button → toggles the card instead of navigating)
+      var btn = el("button", "byline-author__name");
+      btn.type = "button";
+      btn.textContent = au.name;
+      btn.setAttribute("aria-expanded", "false");
+      span.appendChild(btn);
+
+      // superscript affiliation numbers
       if (Array.isArray(au.aff) && au.aff.length) {
-        var sup = el("sup"); sup.textContent = au.aff.join(","); line.appendChild(sup);
+        var sup = el("sup"); sup.textContent = au.aff.join(","); span.appendChild(sup);
       }
+
+      // popover card
+      var pop = el("div", "author-pop");
+      pop.hidden = true;
+
+      var close = el("button", "author-pop__close", "&times;");
+      close.type = "button"; close.setAttribute("aria-label", "Close");
+      pop.appendChild(close);
+
+      pop.appendChild(el("h3", "author-pop__name", escapeHtml(au.name)));
+
+      // full affiliation names, looked up from C.affiliations
+      var affNames = (au.aff || []).map(function (n) { return (C.affiliations || [])[n - 1]; }).filter(Boolean);
+      if (affNames.length) {
+        var affBox = el("div", "author-pop__affs");
+        affNames.forEach(function (name) { affBox.appendChild(el("div", "author-pop__aff", escapeHtml(name))); });
+        pop.appendChild(affBox);
+      }
+
+// Website + ORCID on one row (each shown only if provided)
+      var profBits = [];
+      if (has(au.website)) profBits.push(["Website", au.website]);
+      if (has(au.orcid))   profBits.push(["View ORCID profile", au.orcid]);
+      if (profBits.length) {
+        var profBox = el("div", "author-pop__links");
+        profBits.forEach(function (b, idx) {
+          var a = el("a", null, b[0]); a.href = b[1]; a.target = "_blank"; a.rel = "noopener";
+          profBox.appendChild(a);
+          if (idx < profBits.length - 1) profBox.appendChild(document.createTextNode("  ·  "));
+        });
+        pop.appendChild(profBox);
+      }
+
+      // "Find author on:" row — PubMed + Google Scholar
+      var search = el("div", "author-pop__search");
+      search.appendChild(document.createTextNode("Find author on: "));
+      var bits = [
+        ["PubMed", "https://pubmed.ncbi.nlm.nih.gov/?term=" + encodeURIComponent(au.name)],
+        ["Google Scholar", has(au.scholar) ? au.scholar
+            : "https://scholar.google.com/scholar?q=" + encodeURIComponent(au.name)]
+      ];
+      bits.forEach(function (b, idx) {
+        var a = el("a", null, b[0]); a.href = b[1]; a.target = "_blank"; a.rel = "noopener";
+        search.appendChild(a);
+        if (idx < bits.length - 1) search.appendChild(document.createTextNode("  ·  "));
+      });
+      pop.appendChild(search);
+
+      span.appendChild(pop);
+
+      // toggle
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var willOpen = !span.classList.contains("is-open");
+        closeAll();
+        if (willOpen) {
+          span.classList.add("is-open");
+          btn.setAttribute("aria-expanded", "true");
+          pop.hidden = false;
+          // keep the card within the viewport, and keep the arrow under the name
+          pop.style.left = "0px";
+          pop.style.setProperty("--arrow-left", "22px");
+          var rect = pop.getBoundingClientRect();
+          var over = rect.right - (window.innerWidth - 12);
+          if (over > 0) {
+            pop.style.left = (-over) + "px";
+            pop.style.setProperty("--arrow-left", (22 + over) + "px");
+          }
+        }
+      });
+      close.addEventListener("click", function (e) { e.stopPropagation(); closeAll(); });
+      pop.addEventListener("click", function (e) { e.stopPropagation(); });
+
+      line.appendChild(span);
       if (i < C.authors.length - 1) line.appendChild(document.createTextNode(", "));
     });
+
+    // click anywhere else / Escape closes
+    document.addEventListener("click", closeAll);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeAll(); });
   });
 
   /* ---------- nav + hero CTA links ---------- */
@@ -137,6 +238,8 @@
       { icon: "arxiv",   label: "IEEE Xplore",   href: L.ieeexplore },
       { icon: "poster",  label: "ISMB",          href: L.ismb },
       { icon: "slides",  label: "IEEE VIS 2026", href: L.ieeevis },
+      { icon: "results", label: "Supplement",    href: L.supplement },
+      { icon: "youtube", label: "Video",         href: L.video,}
     ];
 
     // User-defined chips from config (e.g. a YouTube link). Inserted before the
@@ -165,7 +268,7 @@
     // "Show more" toggle (CSS handles the breakpoint); on larger screens they
     // are all shown and the toggle stays hidden.
     paras.forEach(function (p, i) {
-      body.appendChild(el("p", i === 0 ? null : "abstract__extra", escapeHtml(p)));
+      body.appendChild(el("p", i === 0 ? null : "abstract__extra", inlineMd(p)));
     });
     if (paras.length > 1) {
       var btn = el("button", "abstract__toggle", "Show more");
@@ -208,10 +311,29 @@
     (C.highlights || []).forEach(function (h, i) {
       var card = el("article", "card reveal");
       card.appendChild(el("span", "card__num", String(i + 1).padStart(2, "0")));
-      card.appendChild(el("h3", "card__title", escapeHtml(h.title)));
-      card.appendChild(el("p", null, escapeHtml(h.text)));
+      card.appendChild(el("h3", "card__title", inlineMd(h.title)));
+      card.appendChild(el("p", null, inlineMd(h.text)));
       grid.appendChild(card);
     });
+  });
+
+  /* ---------- name-origin note (end of Highlights) ---------- */
+  safe(function () {
+    var grid = $("#highlights"); if (!grid) return;
+    if (!has(C.aboutName)) return;
+    // Append a note after the highlight cards, inside the same .wrap, with the
+    // brand logo inline beside the text.
+    var box = el("div", "highlights__note reveal");
+    var lg = C.brandLogo || {};
+    if (has(lg.src)) {
+      var img = el("img", "highlights__note-logo");
+      img.src = lg.src;
+      img.alt = lg.alt || C.brand || "Logo";
+      img.loading = "lazy";
+      box.appendChild(img);
+    }
+    box.appendChild(el("p", "highlights__note-text", inlineMd(C.aboutName)));
+    grid.insertAdjacentElement("afterend", box);
   });
 
   /* ---------- teaser figure (under highlights) ---------- */
@@ -225,7 +347,7 @@
       img.alt = has(t.alt) ? t.alt : "";
     }
     var cap = $("#teaserCaption");
-    if (cap) cap.textContent = has(t.caption) ? t.caption : "";
+    if (cap) cap.innerHTML = has(t.caption) ? inlineMd(t.caption) : "";
     fig.hidden = false;
   });
 
@@ -246,7 +368,7 @@
         img.onerror = function () { fig.classList.add("gif--empty"); };
         var ph = el("span", "gif__placeholder", escapeHtml(g.src));
         fig.appendChild(img); fig.appendChild(ph);
-        if (has(g.caption)) fig.appendChild(el("figcaption", null, escapeHtml(g.caption)));
+        if (has(g.caption)) fig.appendChild(el("figcaption", null, inlineMd(g.caption)));
         gbox.appendChild(fig);
       });
     }
@@ -326,7 +448,11 @@
         var card = el("article", "author reveal");
         var initials = au.name.split(/\s+/).map(function (w) { return w[0]; }).join("").slice(0, 2).toUpperCase();
         card.appendChild(el("div", "author__avatar", initials));
-        card.appendChild(el("h3", "author__name", escapeHtml(au.name)));
+        var nameEl = el("h3", "author__name", escapeHtml(au.name));
+        if (Array.isArray(au.aff) && au.aff.length) {
+          nameEl.appendChild(el("sup", null, au.aff.join(",")));
+        }
+        card.appendChild(nameEl);
         var affNames = (au.aff || []).map(function (n) { return (C.affiliations || [])[n - 1]; }).filter(Boolean);
         card.appendChild(el("p", "author__aff", escapeHtml(affNames.join(" · "))));
         var links = el("div", "author__links");
@@ -404,6 +530,30 @@
         .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
+  /* ---------- light inline markdown for config text ----------
+     Supports, in this order:
+       [label](url)   -> link (opens in a new tab)
+       **bold**       -> <strong>
+       *italic*       -> <em>
+       `code`         -> <code>
+     The string is HTML-escaped FIRST, so only these markers ever
+     become tags — anything else (including stray < > &) stays literal.
+     Bold is handled before italic so "**x**" isn't eaten by the *…* rule.
+     Used for: abstract paragraphs, highlight title/text, captions. */
+  function inlineMd(s) {
+    var html = escapeHtml(s);
+    // [label](url) — url must not contain spaces or ")"
+    html = html.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (m, label, url) {
+      // escapeHtml already neutralised < > &; also block quotes from breaking the attr
+      var safeUrl = url.replace(/"/g, "%22");
+      return '<a href="' + safeUrl + '" target="_blank" rel="noopener">' + label + "</a>";
+    });
+    html = html.replace(/\*\*([\s\S]+?)\*\*/g, "<strong>$1</strong>"); // **bold**
+    html = html.replace(/\*([^*\n]+?)\*/g, "<em>$1</em>");             // *italic*
+    html = html.replace(/`([^`\n]+?)`/g, "<code>$1</code>");           // `code`
+    return html;
+  }
+
   /* ================= INTERACTIONS ================= */
 
   /* nav shadow on scroll */
@@ -469,4 +619,14 @@
     try { document.execCommand("copy"); cb(); } catch (e) {}
     document.body.removeChild(ta);
   }
+  /* ---------- force external links to open in a new tab ---------- */
+  safe(function () {
+    $all("a[href]").forEach(function (a) {
+      var href = a.getAttribute("href") || "";
+      if (/^https?:\/\//i.test(href)) {
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+      }
+    });
+  });
 })();
