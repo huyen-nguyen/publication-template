@@ -34,7 +34,7 @@ const CONFIG = {
   /* ---------- 1. PAPER ---------------------------------------- */
   brand:        "Viz Name",                 // short name in nav + footer
   badge:        "IEEE VIS 2026 · Bioinformatics & Visualization", // small pill above title
-  title:        "Through the WordStream Glass: <em>Revisiting</em> Quantitative Encoding ",
+  title:        'Through the WordStream Glass: <em>Revisiting</em> Quantitative Encoding ',
   titleEm:      'for <span class="thin">Qualitative</span> Learning Analytics',
   tagline:      "A scalable, open-source framework that turns millions of genomic features into interpretable visual insights, helping researchers find really cool patterns.",
   venue:        "IEEE Transactions on Visualization and Computer Graphics",
