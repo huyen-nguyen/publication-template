@@ -83,9 +83,9 @@
   safe(function () {
     setText("[data-brand]", C.brand);
     setText("[data-badge]", C.badge);
-    setText("[data-title]", C.title);
+    $all("[data-title]").forEach(function (n) { n.innerHTML = C.title; });
     var em = $("[data-title-em]");
-    if (em) { if (has(C.titleEm)) { em.textContent = C.titleEm; } else { em.remove(); } }
+    if (em) { if (has(C.titleEm)) { em.innerHTML = C.titleEm; } else { em.remove(); } }
     $all("[data-tagline]").forEach(function (n) { n.innerHTML = inlineMd(C.tagline); });
     $all("[data-tagline-short]").forEach(function (n) { n.innerHTML = inlineMd(C.tagline); });
 
