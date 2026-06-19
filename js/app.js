@@ -378,7 +378,16 @@
     var hasVideo = frame && has(d.youtubeId);
     var hasGifs = gbox && gbox.children.length;
     if (section && !hasVideo && !hasGifs) section.hidden = true;
+
+    var hasDemo = has(d.youtubeId) || ((d.gifs || []).length > 0);
+    if (hasDemo) return;
+    // Remove any nav/menu link pointing at #demo (desktop nav + mobile menu).
+    $all('.nav__links a[href="#demo"], #mobileMenu a[href="#demo"]').forEach(function (a) {
+      var li = a.closest("li");
+      (li || a).remove();
+    });
   });
+
 
   /* ---------- PDF preprint viewer ---------- */
   safe(function () {
@@ -494,9 +503,12 @@
   /* ---------- footer ---------- */
   safe(function () {
     var L = C.links || {};
+    var d = C.demo || {};
+    var hasDemo = has(d.youtubeId) || ((d.gifs || []).length > 0);
+    var demoHref = hasDemo ? "#demo" : "";
     var fl = $("#footerLinks");
     if (fl) {
-      [["Preprint PDF", L.pdf], ["Source code", L.code], ["Demo video", "#demo"],
+      [["Preprint PDF", L.pdf], ["Source code", L.code], ["Supplement", L.supplement], ["Demo video", demoHref],
         ["PubMed", L.pubmed], ["IEEE Xplore", L.ieeexplore]].forEach(function (pair) {
         if (!has(pair[1])) return;
         var a = el("a", null, pair[0]); a.href = pair[1]; fl.appendChild(a);
@@ -506,7 +518,9 @@
     if (fa && Array.isArray(C.authors)) {
       C.authors.forEach(function (au) {
         var a = el("a", null, escapeHtml(au.name));
-        a.href = has(au.website) ? au.website : (has(au.scholar) ? au.scholar : "#");
+        // website → ORCID → the Authors section on this page
+        a.href = has(au.website) ? au.website
+            : (has(au.orcid) ? au.orcid : "#authors");
         fa.appendChild(a);
       });
     }
