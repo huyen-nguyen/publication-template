@@ -46,7 +46,7 @@ const CONFIG = {
   // Any link left "" is hidden for that author.
   authors: [
     // { name: "Huyen N. Nguyen",   aff: [1],    website: "https://huyennguyen.com/", scholar: "https://scholar.google.com/citations?user=tsrO-ZgAAAAJ&hl=en", orcid: "https://orcid.org/0000-0001-6554-2327" },
-    // { name: "Nils Gehlenborg", aff: [1], website: "https://hidivelab.org/team/members/nils-gehlenborg/", scholar: "https://scholar.google.com/citations?user=YEcBVFAAAAAJ&hl=en"},
+    // { name: "Nils Gehlenborg", aff: [1], website: "https://hidivelab.org/team/members/nils-gehlenborg/", scholar: "https://scholar.google.com/citations?user=YEcBVFAAAAAJ&hl=en", orcid: "https://orcid.org/0000-0003-0327-8297"},
     { name: "Author One",   aff: [1],    website: "#", scholar: "#", orcid: "#" },
     { name: "Author Two",   aff: [2],    website: "#", scholar: "#", orcid: "#" },
     { name: "Author Three", aff: [1, 3], website: "#", scholar: "#", orcid: "#" },
