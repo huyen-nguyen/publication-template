@@ -68,13 +68,14 @@ const CONFIG = {
     pdf:        "https://arxiv.org/pdf/2510.16662",
     code:       "#",   // GitHub repository
     data:       "#",
+    pubmed:     "#",
+    pubmedCentral:     "#",
     ieeexplore: "#",   // IEEE Xplore publication page
-    pubmed:     "#",   // PubMed entry
     ieeevis:    "#",   // IEEE VIS 2026 presentation details
     ismb:       "#",
     supplement: "#",
     video:      "#",
-    license:    "",   // license link used in footer
+    license:    "#",   // license link used in footer
 
     // Leave "" to just use `pdf`.
     // OPTIONAL override for ONLY the embedded viewer. Set this to a local copy when the remote host won't embed
